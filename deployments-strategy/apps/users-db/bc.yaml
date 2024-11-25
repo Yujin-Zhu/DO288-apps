@@ -1,0 +1,59 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"users-db","app.kubernetes.io/component":"users-db","app.kubernetes.io/instance":"users-db"},"name":"users-db","namespace":"yujin-zhu-dev"},"spec":{"nodeSelector":null,"output":{"to":{"kind":"ImageStreamTag","name":"users-db:latest"}},"postCommit":{},"resources":{},"source":{"contextDir":"deployments-strategy/apps/users-db","git":{"uri":"https://github.com/Yujin-Zhu/DO288-apps"},"type":"Git"},"strategy":{"dockerStrategy":{"from":{"kind":"ImageStreamTag","name":"mysql-80:latest"}},"type":"Docker"},"triggers":[{"github":{"secret":"mGGkv4uHQ4xdIMHHImFi"},"type":"GitHub"},{"generic":{"secret":"voyTtV4bXhO7JmVUYhhM"},"type":"Generic"},{"type":"ConfigChange"},{"imageChange":{},"type":"ImageChange"}]},"status":{"lastVersion":0}}
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: "2024-11-19T09:23:03Z"
+  generation: 4
+  labels:
+    app: users-db
+    app.kubernetes.io/component: users-db
+    app.kubernetes.io/instance: users-db
+  name: users-db
+  namespace: yujin-zhu-dev
+  resourceVersion: "3131311007"
+  uid: 21fb41c6-d9e7-41a1-8d94-84fee35017c2
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: users-db:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: deployments-strategy/apps/users-db
+    git:
+      uri: https://github.com/Yujin-Zhu/DO288-apps
+    type: Git
+  strategy:
+    dockerStrategy:
+      env:
+      - name: HOOK_RETRIES
+        value: "5"
+      from:
+        kind: ImageStreamTag
+        name: mysql-80:latest
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - github:
+      secret: mGGkv4uHQ4xdIMHHImFi
+    type: GitHub
+  - generic:
+      secret: voyTtV4bXhO7JmVUYhhM
+    type: Generic
+  - type: ConfigChange
+  - imageChange: {}
+    type: ImageChange
+status:
+  imageChangeTriggers:
+  - from:
+      name: mysql-80:latest
+    lastTriggerTime: null
+    lastTriggeredImageID: registry.redhat.io/rhel8/mysql-80@sha256:0baf427ef75938fa30ab4716994aa31f5e8f999cc5a823aaf0417f114efe1b5f
+  lastVersion: 2

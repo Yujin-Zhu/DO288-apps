@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-db
+  labels:
+    name: mysql-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: mysql-db
+  template:
+    metadata:
+      labels:
+        name: mysql-db
+    spec:
+      containers:
+        - image: registry.redhat.io/rhel8/mysql-80
+          name: mysql-db
+          volumeMounts:
+            - name: mysql-db-pvc
+              mountPath: /var/lib/mysql
+              subPath: mysql-db
+            - name: init-db-volume
+              mountPath: /tmp/init-db
+      volumes:
+        - name: init-db-volume
+          configMap:
+            name: init-db-cm
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-db-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: gp2
+        resources:
+          requests:
+            storage: 1Gi
