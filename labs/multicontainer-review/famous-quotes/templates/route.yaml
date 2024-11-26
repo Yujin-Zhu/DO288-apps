@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: famous-quotes
 spec:
-  host: famous-quotes-multicontainer-review.apps.ocp4.example.com
+  host: famous-quotes-yujin-zhu-dev.apps.sandbox-m3.1530.p1.openshiftapps.com
   port:
     targetPort: https
   to:

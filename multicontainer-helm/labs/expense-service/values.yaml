@@ -5,6 +5,6 @@ postgres:
 
 expenseService:
   replicaCount: 1
-  image: "TODO"
-  host: "TODO"
-  domain: "apps.ocp4.example.com"
+  image: "docker.io/yujinzhu/ocpdev-expense-service:4.14"
+  host: "expense-service"
+  domain: "yujin-zhu-dev.apps.sandbox-m3.1530.p1.openshiftapps.com" 

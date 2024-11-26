@@ -1,0 +1,4 @@
+resources:
+  - ../../base
+patches:
+  - path: staging_dimensioning.yaml
