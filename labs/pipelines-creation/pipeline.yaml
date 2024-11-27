@@ -35,22 +35,79 @@ spec:
       workspaces: 
         - name: output
           workspace: shared
-    - name: build-app
+    - name: npm-install
       taskRef:
-        name: buildah
-        kind: ClusterTask
-      params:
-        - name: IMAGE
-          value: docker.io/yujinzhu/$(params.IMAGE_NAME):latest
-        - name: DOCKERFILE
-          value: Containerfile
-        - name: CONTEXT
-          value: $(params.APP_PATH)
+        name: npm
+        kind: Task
       runAfter:
         - fetch-repository
       workspaces:
         - name: source
           workspace: shared
-        
-          
-
+      params:
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: ARGS
+          value: install --no-package-lock
+    - name: npm-test
+      taskRef:
+        name: npm
+        kind: Task
+      params: 
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: ARGS
+          value: test
+      runAfter:
+        - npm-install
+      workspaces:
+        - name: source
+          workspace: shared
+    - name: npm-lint
+      taskRef:
+        name: npm
+        kind: Task
+      params: 
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: ARGS
+          value: run lint
+      runAfter:
+        - npm-install
+      workspaces:
+        - name: source
+          workspace: shared
+    - name: app-version
+      taskRef:
+        name: npm
+        kind: Task
+      params: 
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: ARGS
+          value: version | grep exchange | cut -d \' -f2 | tr -d '\n'
+      runAfter:
+        - fetch-repository
+      workspaces:
+        - name: source
+          workspace: shared
+    - name: build-image
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+        - name: IMAGE
+          value: "docker.io/yujinzhu/$(params.IMAGE_NAME):$(tasks.app-version.results.output)"
+        - name: DOCKERFILE
+          value: Containerfile
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+        - name: SKIP_PUSH
+          value: true
+      runAfter:
+        - npm-test
+        - npm-lint
+        - app-version
+      workspaces:
+        - name: source
+          workspace: shared

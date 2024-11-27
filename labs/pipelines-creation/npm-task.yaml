@@ -18,4 +18,14 @@ spec:
       type: string
       default: "registry.access.redhat.com/ubi8/nodejs-16" 
   steps:
-    - name: TODO
+    - image: $(params.NODE_IMAGE)
+      name: npm-run
+      script: |
+        npm $(params.ARGS) | tee $(results.output.path)
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+      workingDir: $(workspaces.source.path)/$(params.CONTEXT)
+      env:
+        - name: CI
+          value: "true"	
