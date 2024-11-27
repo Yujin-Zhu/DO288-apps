@@ -12,13 +12,45 @@ spec:
       default: "exchange"
     - name: GIT_REPO
       type: string
-      default: "https://git.ocp4.example.com/developer/DO288-apps"
+      default: "https://github.com/Yujin-Zhu/DO288-apps" 
     - name: GIT_REVISION
       type: string
-      default: "master"
+      default: "main"
     - name: APP_PATH
       type: string
       default: "apps/pipelines-creation/exchange"
 
   tasks:
-    - name: TODO
+    - name: fetch-repository
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: $(params.GIT_REPO)
+        - name: revision
+          value: $(params.GIT_REVISION)
+        - name: sslVerify
+          value: false
+      workspaces: 
+        - name: output
+          workspace: shared
+    - name: build-app
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+        - name: IMAGE
+          value: docker.io/yujinzhu/$(params.IMAGE_NAME):latest
+        - name: DOCKERFILE
+          value: Containerfile
+        - name: CONTEXT
+          value: $(params.APP_PATH)
+      runAfter:
+        - fetch-repository
+      workspaces:
+        - name: source
+          workspace: shared
+        
+          
+
