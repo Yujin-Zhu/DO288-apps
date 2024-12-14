@@ -4,12 +4,21 @@ metadata:
   name: maven-task
 spec:
   workspaces:
-    # TODO
+    - name: source
+    - name: maven_config
   params:
-    # TODO
+    - name: app_path
+      type: string
+      default: .
   steps:
     - name: build
-      # TODO
+      image: "registry.access.redhat.com/ubi8/openjdk-11"
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+      workingDir: $(workspaces.source.path)/$(params.app_path)
+      script: |
+        mvn clean package -s $(workspaces.maven_config.path)/settings.xml
       securityContext:
         runAsNonRoot: true
         runAsUser: 65532

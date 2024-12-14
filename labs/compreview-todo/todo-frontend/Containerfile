@@ -1,4 +1,4 @@
-FROM registry.ocp4.example.com:8443/ubi8/nodejs-16 AS appbuild
+FROM registry.access.redhat.com/ubi8/nodejs-16 AS appbuild
 
 LABEL version="1.0"
 LABEL description="To Do List application builder"
@@ -17,7 +17,7 @@ RUN chgrp -R 0 . && \
 
 
 # https://github.com/sclorg/nginx-container
-FROM registry.ocp4.example.com:8443/ubi8/nginx-118
+FROM registry.access.redhat.com/ubi8/nginx-118
 
 LABEL version="1.0"
 LABEL description="To Do List application front-end"
@@ -26,5 +26,8 @@ LABEL updatedDate="2021-05-19"
 
 COPY nginx.conf /etc/nginx/
 COPY --from=appbuild /opt/app-root/src/build /usr/share/nginx/html
+
+USER nginx
+EXPOSE 8080
 
 CMD nginx -g "daemon off;"
