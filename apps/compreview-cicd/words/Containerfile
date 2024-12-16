@@ -1,4 +1,4 @@
-FROM registry.ocp4.example.com:8443/ubi8/nodejs-16:latest as builder
+FROM registry.access.redhat.com/ubi8/nodejs-16:latest as builder
 ADD . .
 
 # Allow the root group to have the same permissions as the root user
