@@ -19,6 +19,8 @@ echo "---> Creating info page"
 echo "Page built on $DATE" >> ./info.html
 echo "Proudly served by Apache HTTP Server version $HTTPD_VERSION" >> ./info.html
 
+echo "---> Creating customised page made by Yujin Zhu"
+echo "Annoyed by Mimi because she knocked over my watercup and the tea flowed everywhere."  >> ./mood.html
 ######## CUSTOMIZATION ENDS HERE ############
 
 if [ -d ./httpd-cfg ]; then
