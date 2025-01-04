@@ -2,7 +2,7 @@
 
 # get timer and retries from env
 if [ "$HOOK_RETRIES" = "" ]; then
-  HOOK_RETRIES=3
+  HOOK_RETRIES=5
 fi
 if [ "$HOOK_SLEEP" = "" ]; then
   HOOK_SLEEP=2

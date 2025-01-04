@@ -76,10 +76,10 @@ items:
       type: Docker
     triggers:
     - github:
-        secret: mGGkv4uHQ4xdIMHHImFi
+        secret: KVFP78cfEyCYvfYryH4m
       type: GitHub
     - generic:
-        secret: voyTtV4bXhO7JmVUYhhM
+        secret: 9eH58DdaqxFycyEHNGx_
       type: Generic
     - type: ConfigChange
     - imageChange: {}
